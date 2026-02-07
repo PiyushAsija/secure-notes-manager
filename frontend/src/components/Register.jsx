@@ -1,26 +1,41 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function Register(){
-    const [email, setEmail]=useState("");
-    const [password, setPassword]=useState("");
+const API = "https://secure-notes-manager.onrender.com";
 
-    const register = async ()=>{
-        try{
-            await axios.post("http://localhost:5000/api/auth/register",{email,password});
-        alert("Registerd");
-        }
-        catch(err){
-            alert(err.response?.data?.error || "Error")
-        }
+export default function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const register = async () => {
+    try {
+      await axios.post(`${API}/api/auth/register`, {
+        email,
+        password,
+      });
+      alert("Registered successfully");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      alert(err.response?.data?.error || "Registration failed");
     }
+  };
 
-    return(
-        <>
-            <h3>Register</h3>
-            <input placeholder="Email" onChange={e=>setEmail(e.target.value)} value={email}/>
-            <input type="password" placeholder="Password" onChange={e=>setPassword(e.target.value)}/>
-            <button onClick={register}>Register</button>
-        </>
-    );
+  return (
+    <>
+      <h3>Register</h3>
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={register}>Register</button>
+    </>
+  );
 }

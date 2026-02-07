@@ -1,87 +1,97 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Notes(){
-    const [notes, setNotes]=useState([]);
-    const [title, setTitle]=useState("");
-    const [content, setContent]=useState("");
+export default function Notes() {
+    const [notes, setNotes] = useState([]);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
     const [editingId, setEditingId] = useState(null);
 
     const token = localStorage.getItem("token");
-    
-    const fetchNotes = async ()=>{
-        const res=await axios.get("http://localhost:5000/api/notes",{
-            headers:{Authorization:token}
+
+    const fetchNotes = async () => {
+        const res = await axios.get("http://localhost:5000/api/notes", {
+            headers: { Authorization: `Bearer ${token}` }
         });
         setNotes(res.data);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchNotes();
-    },[])
+    }, [])
 
-    const addNote= async ()=>{
+    const addNote = async () => {
         await axios.post("http://localhost:5000/api/notes",
-            {title,content},
-            {headers:{Authorization:token}}
+            { title, content },
+            { headers: { Authorization: `Bearer ${token}` } }
         );
         setTitle("");
         setContent("");
         fetchNotes();
+        alert("Note added successfully");
+
     };
 
-    const deleteNote = async (id)=>{
+    const deleteNote = async (id) => {
         await axios.delete(
             `http://localhost:5000/api/notes/${id}`,
-            {headers:{Authorization:token}}
+            { headers: { Authorization: `Bearer ${token}` } }
         );
         fetchNotes();
     };
 
-    const updateNote = async ()=>{
+    const updateNote = async () => {
         await axios.put(
             `http://localhost:5000/api/notes/${editingId}`,
-            {title,content},
-            {headers:{Authorization:token}}
+            { title, content },
+            { headers: { Authorization: `Bearer ${token}` } }
         );
         setEditingId(null);
         setTitle("");
         setContent("");
         fetchNotes();
     };
- 
 
-    return(
+
+    return (
         <>
-        <h3>Notes</h3>
-        <input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
-        <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
-        {editingId? (
-            <button onClick={updateNote}>Update Note</button>
-        ) :(<button onClick={addNote}>Add Note</button>
-        )}
+            <h2 style={{ marginBottom: "10px" }}>Your Notes</h2>
+            <input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
+            <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
+            {editingId ? (
+                <button onClick={updateNote}>Update Note</button>
+            ) : (<button onClick={addNote}>Add Note</button>
+            )}
 
-        <hr />
+            <hr />
+            {notes.length === 0 && (
+                <p style={{ color: "#666" }}>No notes yet. Add your first note.</p>
+            )}
+            {notes.map((n) => {
+                return (
+                    <div style={{ display: "flex", gap: "8px" }}>
+                        <button
+                            className="secondary"
+                            onClick={() => {
+                                setEditingId(n._id);
+                                setTitle(n.title);
+                                setContent(n.content);
+                            }}
+                        >
+                            ✏️ Edit
+                        </button>
 
-        {notes.map((n)=>{
-            return (<div key={n._id} style={{border:"1px solid #ccc", padding:10, marginBottom:8}}>
-                <h4>{n.title}</h4>
-                <p>{n.content}</p>
+                        <button
+                            style={{ background: "#ef4444" }}
+                            onClick={() => deleteNote(n._id)}
+                        >
+                            🗑️ Delete
+                        </button>
 
-                <button
-                    onClick={()=>{
-                        setEditingId(n._id);
-                        setTitle(n.title);
-                        setContent(n.content);
-                    }}
-                    >
-                        Edit
-                    </button>
+                    </div>
 
-                    <button onClick={()=> deleteNote(n._id)}>Delete</button>
-            </div>
-            );
-        })}
+                );
+            })}
         </>
     );
 }

@@ -10,7 +10,7 @@ export default function Login({onSuccess}){
         try{
             const res=await axios.post("http://localhost:5000/api/auth/login",{email,password});
             localStorage.setItem("token",res.data.token);
-            onSuccess();
+            onSuccess()
         }
         catch(err){
             alert(err.response?.data?.error || "Error")

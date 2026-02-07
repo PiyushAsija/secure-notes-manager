@@ -1,48 +1,62 @@
 # 🔐 Secure Notes Manager
 
 A full-stack secure notes application that allows users to safely create, manage, and store personal notes.
-Built with a focus on authentication, authorization, and clean REST API design.
+Built with a strong focus on authentication, authorization, and clean REST API design.
 
 ---
 
 ## 🚀 Tech Stack
 
-**Frontend**
+### Frontend
 - React (Vite)
 - Axios
-- CSS (custom styling)
+- Custom CSS
+- Deployed on Vercel
 
-**Backend**
+### Backend
 - Node.js
 - Express.js
 - JWT Authentication
 - bcrypt for password hashing
+- Deployed on Render
 
-**Database**
+### Database
 - MongoDB
-- Mongoose
+- Mongoose ODM
 
 ---
 
 ## ✨ Features
 
-- User registration and login with JWT-based authentication
+- User registration and login
+- JWT-based authentication & protected routes
 - Secure password hashing using bcrypt
-- Create, read, update, and delete (CRUD) notes
-- Notes are accessible only to the authenticated user
+- Create, Read, Update, Delete (CRUD) notes
+- Notes visible only to the logged-in user
 - RESTful API architecture
-- Clean and minimal UI with card-based layout
-- Dark mode toggle for better user experience
+- Clean, minimal card-based UI
+- Dark mode toggle for better UX
 
 ---
 
 ## 🧠 Project Highlights
 
-- Implemented authentication middleware to protect private routes
-- Used JWT tokens for secure session handling
-- Designed user-specific data access to ensure privacy
-- Followed modular backend structure (routes, models, middleware)
-- Focused on simplicity, security, and readability
+- Authentication middleware to protect private APIs
+- Token-based authorization using JWT
+- User-specific data isolation for security
+- Modular backend structure (routes, models, middleware)
+- Frontend–backend integration using REST APIs
+- Focus on simplicity, security, and readability
+
+---
+
+## 🌐 Live Demo
+
+- **Frontend (Vercel):**  
+  https://secure-notes-manager-alpha.vercel.app
+
+- **Backend API (Render):**  
+  https://secure-notes-manager.onrender.com
 
 ---
 
